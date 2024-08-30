@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎓 Akash: Smart Classroom Web Application 🚀
 
 ## 📚 Background
@@ -77,3 +78,6 @@ For any queries or suggestions, please reach out to us at [akash@example.com](ma
 ---
 
 🌟 Star this repo if you find it helpful! 🌟
+=======
+
+>>>>>>> 23dbe6b0b418dfb763f37b5146996049a045c5b0
