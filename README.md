@@ -38,7 +38,7 @@ Upcoming Features:
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yourusername/Akshar.git
+   git clone https://github.com/vinay-th/Akshar.git
    ```
 
 2. Install dependencies:
