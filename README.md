@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # 🎓 Akash: Smart Classroom Web Application 🚀
 
 ## 📚 Background
@@ -73,11 +73,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-For any queries or suggestions, please reach out to us at [akash@example.com](mailto:akash@example.com).
+For any queries or suggestions, please reach out to us at [vinay.th.24@gmail.com](vinay.th.24@gmail.com).
 
 ---
 
 🌟 Star this repo if you find it helpful! 🌟
 =======
 
->>>>>>> 23dbe6b0b418dfb763f37b5146996049a045c5b0
