@@ -1,9 +1,8 @@
-
-# 🎓 Akash: Smart Classroom Web Application 🚀
+# 🎓 Akshar: Smart Classroom Web Application 🚀
 
 ## 📚 Background
 
-In today's fast-paced educational landscape, efficient classroom management is crucial. Akash aims to revolutionize the traditional classroom experience by leveraging cutting-edge technology to enhance learning, streamline operations, and foster engagement.
+In today's fast-paced educational landscape, efficient classroom management is crucial. Akshar aims to revolutionize the traditional classroom experience by leveraging cutting-edge technology to enhance learning, streamline operations, and foster engagement.
 
 ## 🌟 Features
 
@@ -39,13 +38,13 @@ Upcoming Features:
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yourusername/akash.git
+   git clone https://github.com/yourusername/Akshar.git
    ```
 
 2. Install dependencies:
 
    ```
-   cd akash
+   cd Akshar
    npm install
    ```
 
@@ -77,6 +76,4 @@ For any queries or suggestions, please reach out to us at [vinay.th.24@gmail.com
 
 ---
 
-🌟 Star this repo if you find it helpful! 🌟
-=======
-
+# 🌟 Star this repo if you find it helpful! 🌟
