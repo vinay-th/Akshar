@@ -16,7 +16,7 @@ Current Features:
 
 Upcoming Features:
 
-- 💬 AI-powered Chatbot
+- 💬 AI-powered Chatbot within users
 - 📣 Feedback System
 - 🧠 Quiz Platform
 - 📂 File Storage and Sharing
