@@ -1,38 +1,58 @@
-import React, { useState, useCallback, Suspense, lazy } from 'react';
+import React, { useState, useCallback, Suspense, lazy, useEffect } from 'react';
 import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+
+// Add this at the top of your file
+if (typeof process === 'undefined') {
+  window.process = { env: { NODE_ENV: 'production' } };
+}
 
 const Excalidraw = lazy(() =>
-  import('@excalidraw/excalidraw').then((module) => ({
-    default: module.Excalidraw,
-  }))
+  import('@excalidraw/excalidraw')
+    .then((module) => ({
+      default: module.Excalidraw,
+    }))
+    .catch((error) => {
+      console.error('Error loading Excalidraw:', error);
+      return { default: () => <div>Error loading Excalidraw</div> };
+    })
 );
 
 const Whiteboard = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  console.log('Whiteboard component rendering');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+  const [error, setError] = useState(null);
+  const { uniqueId } = useParams();
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('/api/auth/login', { email, password });
-      console.log(response.data);
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error('Login failed:', error);
-      alert('Login failed. Please check your credentials.');
-    }
-  };
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        console.log('Checking auth for uniqueId:', uniqueId);
+        const response = await axios.get(`/api/auth/check/${uniqueId}`);
+        console.log('Auth response:', response.data);
+        if (response.data.isTeacher) {
+          setIsLoggedIn(true);
+        } else {
+          setError('User is not authorized as a teacher');
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        setError(`Auth check failed: ${error.message}`);
+      }
+    };
+    checkAuth();
+  }, [uniqueId]);
 
   const onExcalidrawAPIMount = useCallback((api) => {
     setExcalidrawAPI(api);
   }, []);
 
   const SaveButton = () => {
-    const saveAsSVG = async () => {
+    const saveAsPNG = async () => {
       if (!isLoggedIn) {
-        alert('Please log in to save SVG');
+        alert('Please log in to save PNG');
         return;
       }
 
@@ -43,113 +63,82 @@ const Whiteboard = () => {
           return;
         }
 
-        const { exportToSvg } = await import('@excalidraw/excalidraw');
-        const elements = excalidrawAPI.getSceneElements();
-        if (elements.length === 0) {
-          alert('No content to save');
-          return;
-        }
+        const title = prompt('Enter a title for your PNG:', 'My Drawing');
+        if (!title) return;
 
-        const svg = await exportToSvg({
-          elements,
+        const { exportToBlob } = await import('@excalidraw/excalidraw');
+        const blob = await exportToBlob({
+          elements: excalidrawAPI.getSceneElements(),
           appState: excalidrawAPI.getAppState(),
           files: excalidrawAPI.getFiles(),
+          mimeType: 'image/png',
         });
 
-        const svgString = new XMLSerializer().serializeToString(svg);
-        console.log('SVG string length:', svgString.length);
-        console.log('SVG string preview:', svgString.substring(0, 100) + '...');
+        const formData = new FormData();
+        formData.append('image', blob, `${title}.png`);
+        formData.append('title', title);
 
-        if (svgString.length > 16777216) {
-          // 16MB limit for MongoDB documents
-          alert('SVG is too large to save. Please simplify your drawing.');
-          return;
-        }
-
+        console.log('Sending PNG save request...');
         const response = await axios.post(
-          '/api/whiteboard/save-svg',
-          {
-            svgData: svgString,
-          },
+          `/api/whiteboard/${uniqueId}/save-png`,
+          formData,
           {
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'multipart/form-data',
             },
           }
         );
-        console.log('Full server response:', response);
-        if (response.status !== 200) {
-          throw new Error(`Server responded with status ${response.status}`);
-        }
+
         console.log('Server response:', response.data);
-        alert('SVG saved successfully!');
+        alert('PNG saved successfully!');
       } catch (error) {
-        console.error('Error saving SVG:', error);
-        console.error('Error response:', error.response);
-        console.error('Error details:', error.response?.data || error.message);
-        alert(
-          `Failed to save SVG: ${
-            error.response?.data?.details || error.message
-          }`
-        );
+        console.error('Error saving PNG:', error);
+        console.error('Error details:', error.response?.data);
+        alert(`Failed to save PNG: ${error.message}`);
       }
     };
 
     return (
       <button
-        onClick={saveAsSVG}
+        onClick={saveAsPNG}
         style={{
           position: 'absolute',
-          bottom: '40px',
+          bottom: '20px',
           right: '20px',
-          zIndex: 100,
-          padding: '10px',
-          backgroundColor: '#007bff',
+          padding: '10px 20px',
+          backgroundColor: '#4CAF50',
           color: 'white',
           border: 'none',
           borderRadius: '5px',
           cursor: 'pointer',
+          zIndex: 1000, // This ensures the button is on top
+          boxShadow: '0 2px 5px rgba(0,0,0,0.2)', // Optional: adds a subtle shadow
         }}
       >
-        Save as SVG
+        Save as PNG
       </button>
     );
   };
 
-  if (!isLoggedIn) {
-    return (
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-    );
-  }
-
   return (
-    <div style={{ position: 'relative', width: '100%', height: '600px' }}>
-      <Suspense fallback={<div>Loading Excalidraw...</div>}>
-        <Excalidraw
-          excalidrawAPI={onExcalidrawAPIMount}
-          initialData={{
-            elements: [],
-            appState: { viewBackgroundColor: '#ffffff' },
-          }}
-        />
-      </Suspense>
-      <SaveButton />
+    <div>
+      {error && <div>Error: {error}</div>}
+      {isLoggedIn ? (
+        <div style={{ position: 'relative', width: '100%', height: '600px' }}>
+          <Suspense fallback={<div>Loading Excalidraw...</div>}>
+            <Excalidraw
+              excalidrawAPI={onExcalidrawAPIMount}
+              initialData={{
+                elements: [],
+                appState: { viewBackgroundColor: '#ffffff' },
+              }}
+            />
+          </Suspense>
+          <SaveButton />
+        </div>
+      ) : (
+        <div>Please log in to access the whiteboard.</div>
+      )}
     </div>
   );
 };

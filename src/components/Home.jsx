@@ -5,7 +5,7 @@ function Home() {
   return (
     <div>
       <h1>Welcome to Akshar</h1>
-      <Link to="/whiteboard">Go to Whiteboard</Link>
+      <Link to="/faculty/demo/whiteboard">Go to Demo Whiteboard</Link>
     </div>
   );
 }

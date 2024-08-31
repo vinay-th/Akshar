@@ -1,7 +1,9 @@
 import express from 'express';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
+import multer from 'multer';
 
 const router = express.Router();
+const upload = multer({ storage: multer.memoryStorage() });
 
 const uri =
   'mongodb+srv://vinaythakor5025:Vinay10@akshar.hl9y3.mongodb.net/?retryWrites=true&w=majority&appName=Akshar';
@@ -63,6 +65,61 @@ router.post('/save-svg', async (req, res) => {
       error: 'Failed to save SVG',
       details: error.message,
       name: error.name,
+      stack: error.stack,
+    });
+  }
+});
+
+router.post('/:uniqueId/save-png', upload.single('image'), async (req, res) => {
+  const { uniqueId } = req.params;
+  const { title } = req.body;
+
+  console.log('Received save-png request for uniqueId:', uniqueId);
+  console.log('Title:', title);
+  console.log('File received:', req.file ? 'Yes' : 'No');
+
+  if (!req.file || !title) {
+    console.log('Missing file or title');
+    return res.status(400).json({ error: 'PNG data and title are required' });
+  }
+
+  try {
+    const database = await connectToDatabase();
+    console.log('Connected to database');
+
+    const usersCollection = database.collection('users');
+    let user;
+
+    if (uniqueId === 'demo') {
+      user = await usersCollection.findOne({ username: 'demo' });
+    } else {
+      user = await usersCollection.findOne({ _id: new ObjectId(uniqueId) });
+    }
+
+    console.log('User found:', user);
+
+    if (!user || user.role !== 'teacher') {
+      console.log('Unauthorized: User not found or not a teacher');
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    const pngsCollection = database.collection('svgs');
+    const result = await pngsCollection.insertOne({
+      userId: uniqueId === 'demo' ? 'demo' : new ObjectId(uniqueId),
+      title: title,
+      data: req.file.buffer,
+      createdAt: new Date(),
+    });
+
+    console.log('SVG saved successfully');
+    res
+      .status(200)
+      .json({ message: 'SVG saved successfully', id: result.insertedId });
+  } catch (error) {
+    console.error('Error saving SVG to database:', error);
+    res.status(500).json({
+      error: 'Failed to save SVG',
+      details: error.message,
       stack: error.stack,
     });
   }
