@@ -6,7 +6,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import Herosection from './pages/Herosection';
-import Whiteboard from './components/Whiteboard.jsx'; // Ensure correct import
+import Whiteboard from './components/Whiteboard.jsx';
 
 function MainApp() {
   const action = useNavigationType();
