@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import './Landing.css'; // Add this line
-
+import './Landing.css';
 const Landing = ({ className = '' }) => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
 
