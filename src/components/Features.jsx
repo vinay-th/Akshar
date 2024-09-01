@@ -5,9 +5,9 @@ const Features = ({ className = '' }) => {
     <section
       className={`w-[1337px] flex flex-row items-start justify-center py-0 px-5 box-border max-w-full text-left text-21xl text-black font-title ${className}`}
     >
-      <div className="w-[1081px] flex flex-row items-end justify-between max-w-full gap-5 mq1050:flex-wrap">
+      <div className="w-[1081px]  flex flex-row items-end justify-between max-w-full gap-5 mq1050:flex-wrap">
         <div className="w-[425px] flex flex-col items-start justify-start gap-[115px] min-w-[425px] max-w-full gap-[57px] mq750:min-w-full mq1050:flex-1">
-          <div className="self-stretch flex flex-col items-start justify-start gap-[24.6px] max-w-full">
+          <div className="self-stretch flex mt-100 flex-col items-start justify-start gap-[24.6px] max-w-full">
             <div className="flex flex-row items-start justify-start py-0 px-1">
               <img
                 className="h-[79.4px] w-[69.4px] relative overflow-hidden shrink-0"
