@@ -38,49 +38,45 @@ async function connectToDatabase() {
   }
 }
 
-router.post('/save-svg', async (req, res) => {
-  console.log('Received save-svg request');
-  const { svgData } = req.body;
-
-  if (!svgData) {
-    console.log('SVG data is missing');
-    return res.status(400).json({ error: 'SVG data is required' });
-  }
-
+router.post('/:uniqueId/save-svg', upload.single('image'), async (req, res) => {
   try {
+    const { uniqueId } = req.params;
+    const { title } = req.body;
+    const svgBuffer = req.file.buffer.toString('utf-8');
+
     const database = await connectToDatabase();
     const collection = database.collection('svgs');
 
     const result = await collection.insertOne({
-      svgData: svgData,
+      uniqueId,
+      title,
+      svg: svgBuffer,
       createdAt: new Date(),
     });
 
-    console.log('SVG data inserted successfully');
     res
       .status(200)
       .json({ message: 'SVG saved successfully', id: result.insertedId });
   } catch (error) {
-    console.error('Error saving SVG to database:', error);
-    res.status(500).json({
-      error: 'Failed to save SVG',
-      details: error.message,
-      stack: error.stack,
-    });
+    console.error('Error saving SVG:', error);
+    res
+      .status(500)
+      .json({ message: 'Failed to save SVG', error: error.message });
   }
 });
 
-router.post('/:uniqueId/save-svg', async (req, res) => {
-  console.log('Save SVG route hit', req.params, req.body);
+router.post('/:uniqueId/save-png', upload.single('image'), async (req, res) => {
+  console.log('Save PNG route hit', req.params, req.body);
   const { uniqueId } = req.params;
-  const { title, svgData } = req.body;
+  const { title } = req.body;
+  const image = req.file;
 
-  console.log('Received save-svg request for uniqueId:', uniqueId);
+  console.log('Received save-png request for uniqueId:', uniqueId);
   console.log('Title:', title);
 
-  if (!svgData || !title) {
-    console.log('Missing SVG data or title');
-    return res.status(400).json({ error: 'SVG data and title are required' });
+  if (!image || !title) {
+    console.log('Missing PNG data or title');
+    return res.status(400).json({ error: 'PNG data and title are required' });
   }
 
   try {
@@ -99,22 +95,22 @@ router.post('/:uniqueId/save-svg', async (req, res) => {
       return res.status(403).json({ error: 'Unauthorized' });
     }
 
-    const svgsCollection = database.collection('svgs');
-    const result = await svgsCollection.insertOne({
+    const pngsCollection = database.collection('pngs');
+    const result = await pngsCollection.insertOne({
       userId: uniqueId === 'demo' ? 'demo' : new ObjectId(uniqueId),
       title: title,
-      svgData: svgData,
+      pngData: image.buffer,
       createdAt: new Date(),
     });
 
-    console.log('SVG saved successfully');
+    console.log('PNG saved successfully');
     res
       .status(200)
-      .json({ message: 'SVG saved successfully', id: result.insertedId });
+      .json({ message: 'PNG saved successfully', id: result.insertedId });
   } catch (error) {
-    console.error('Error saving SVG to database:', error);
+    console.error('Error saving PNG to database:', error);
     res.status(500).json({
-      error: 'Failed to save SVG',
+      error: 'Failed to save PNG',
       details: error.message,
       stack: error.stack,
     });
@@ -135,7 +131,7 @@ router.get('/get-svg/:id', async (req, res) => {
     }
 
     res.contentType('image/svg+xml');
-    res.send(result.svgData);
+    res.send(result.svg);
   } catch (error) {
     console.error('Error retrieving SVG:', error);
     res.status(500).json({ error: 'Failed to retrieve SVG' });
