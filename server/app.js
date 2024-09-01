@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import { MongoClient } from 'mongodb';
 import whiteboardRoutes from './routes/whiteboard.js';
@@ -6,33 +9,58 @@ import cors from 'cors';
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // or whatever your frontend URL is
+    credentials: true,
+  })
+);
 
-// Remove this line if it exists:
-// app.use(upload.none());
+app.use(express.json());
 
 app.use('/api/whiteboard', whiteboardRoutes);
 app.use('/api/auth', authRoutes);
 
-// Add this after your other routes
 app.use('*', (req, res) => {
   console.log('Unmatched route:', req.method, req.originalUrl);
   res.status(404).json({ error: 'Not Found' });
 });
 
-// Initialize your client
-const uri =
-  'mongodb+srv://vinaythakor5025:Vinay10@akshar.hl9y3.mongodb.net/?retryWrites=true&w=majority&appName=Akshar'; // Replace with your actual MongoDB URI
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
 });
+
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  console.error('Error stack:', err.stack);
+  res.status(500).json({
+    error: 'Internal server error',
+    details: err.message,
+    stack: err.stack,
+  });
+});
+
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  console.error('MONGODB_URI is not set in the environment variables');
+  process.exit(1);
+}
+
+const client = new MongoClient(uri);
+
+console.log('MONGODB_URI:', process.env.MONGODB_URI);
 
 async function startServer() {
   try {
     await client.connect();
     console.log('Connected to MongoDB');
+
+    const adminDb = client.db('admin');
+    const result = await adminDb.command({ ping: 1 });
+    console.log(
+      'Pinged your deployment. You successfully connected to MongoDB!'
+    );
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {

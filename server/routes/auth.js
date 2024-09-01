@@ -1,9 +1,41 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import { MongoClient, ObjectId } from 'mongodb';
+import bcrypt from 'bcrypt';
 
 const router = express.Router();
 
-// Define your auth routes here
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  console.error('MONGODB_URI is not set in the environment variables');
+  process.exit(1);
+}
+
+let client;
+let db;
+
+async function connectToDatabase() {
+  try {
+    if (!client) {
+      client = new MongoClient(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      await client.connect();
+      console.log('Connected to MongoDB');
+    }
+    if (!db) {
+      db = client.db('aksharDB');
+    }
+    return db;
+  } catch (error) {
+    console.error('Error connecting to database:', error);
+    throw error;
+  }
+}
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -27,8 +59,6 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    // Here you would typically generate a JWT token
-    // For simplicity, we're just sending back a success message
     res.status(200).json({ message: 'Login successful', userId: user._id });
   } catch (error) {
     console.error('Error during login:', error);
@@ -45,14 +75,12 @@ router.get('/check/:uniqueId', async (req, res) => {
   console.log('Received auth check request for uniqueId:', uniqueId);
 
   try {
+    console.log('Attempting to connect to database');
     const db = await connectToDatabase();
     console.log('Connected to database');
     const usersCollection = db.collection('users');
 
-    // Print all users in the collection
-    const allUsers = await usersCollection.find({}).toArray();
-    console.log('All users in the collection:', allUsers);
-
+    console.log('Attempting to find user');
     let user;
     if (uniqueId === 'demo') {
       console.log('Searching for demo user');
@@ -62,7 +90,7 @@ router.get('/check/:uniqueId', async (req, res) => {
       user = await usersCollection.findOne({ _id: new ObjectId(uniqueId) });
     }
 
-    console.log('User found:', user);
+    console.log('User found:', JSON.stringify(user, null, 2));
 
     if (user && user.role === 'teacher') {
       console.log('User is a teacher');
@@ -73,36 +101,27 @@ router.get('/check/:uniqueId', async (req, res) => {
     }
   } catch (error) {
     console.error('Error checking user role:', error);
+    console.error('Error stack:', error.stack);
+    res.status(500).json({
+      error: 'Internal server error',
+      details: error.message,
+      stack: error.stack,
+    });
+  }
+});
+
+router.get('/users', async (req, res) => {
+  try {
+    const db = await connectToDatabase();
+    const usersCollection = db.collection('users');
+    const users = await usersCollection.find({}).toArray();
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
     res
       .status(500)
       .json({ error: 'Internal server error', details: error.message });
   }
 });
 
-// Make sure to export the router as default
 export default router;
-
-const uri =
-  'mongodb+srv://vinaythakor5025:Vinay10@akshar.hl9y3.mongodb.net/?retryWrites=true&w=majority&appName=Akshar';
-let client;
-let db;
-
-async function connectToDatabase() {
-  try {
-    if (!client) {
-      client = new MongoClient(uri, {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-      });
-      await client.connect();
-      console.log('Connected to MongoDB');
-    }
-    if (!db) {
-      db = client.db('aksharDB');
-    }
-    return db;
-  } catch (error) {
-    console.error('Error connecting to database:', error);
-    throw error;
-  }
-}

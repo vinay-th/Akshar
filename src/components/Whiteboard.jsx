@@ -2,11 +2,6 @@ import React, { useState, useCallback, Suspense, lazy, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
-// Add this at the top of your file
-if (typeof process === 'undefined') {
-  window.process = { env: { NODE_ENV: 'production' } };
-}
-
 const Excalidraw = lazy(() =>
   import('@excalidraw/excalidraw')
     .then((module) => ({
@@ -30,7 +25,9 @@ const Whiteboard = () => {
     const checkAuth = async () => {
       try {
         console.log('Checking auth for uniqueId:', uniqueId);
-        const response = await axios.get(`/api/auth/check/${uniqueId}`);
+        const response = await axios.get(`/api/auth/check/${uniqueId}`, {
+          withCredentials: true,
+        });
         console.log('Auth response:', response.data);
         if (response.data.isTeacher) {
           setIsLoggedIn(true);
@@ -39,6 +36,15 @@ const Whiteboard = () => {
         }
       } catch (error) {
         console.error('Auth check failed:', error);
+        if (error.response) {
+          console.error('Error data:', error.response.data);
+          console.error('Error status:', error.response.status);
+          console.error('Error headers:', error.response.headers);
+        } else if (error.request) {
+          console.error('Error request:', error.request);
+        } else {
+          console.error('Error message:', error.message);
+        }
         setError(`Auth check failed: ${error.message}`);
       }
     };
@@ -50,57 +56,34 @@ const Whiteboard = () => {
   }, []);
 
   const SaveButton = () => {
-    const saveAsPNG = async () => {
-      if (!isLoggedIn) {
-        alert('Please log in to save PNG');
-        return;
-      }
-
+    const saveAsSVG = async () => {
       try {
-        if (!excalidrawAPI) {
-          console.error('Excalidraw API is undefined');
-          alert('Failed to access the drawing');
-          return;
-        }
+        const svgElement = document.querySelector('svg');
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const title = prompt('Enter a title for your drawing:');
 
-        const title = prompt('Enter a title for your PNG:', 'My Drawing');
         if (!title) return;
 
-        const { exportToBlob } = await import('@excalidraw/excalidraw');
-        const blob = await exportToBlob({
-          elements: excalidrawAPI.getSceneElements(),
-          appState: excalidrawAPI.getAppState(),
-          files: excalidrawAPI.getFiles(),
-          mimeType: 'image/png',
-        });
-
-        const formData = new FormData();
-        formData.append('image', blob, `${title}.png`);
-        formData.append('title', title);
-
-        console.log('Sending PNG save request...');
         const response = await axios.post(
-          `/api/whiteboard/${uniqueId}/save-png`,
-          formData,
+          `/api/whiteboard/${uniqueId}/save-svg`,
           {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+            title,
+            svgData,
           }
         );
 
-        console.log('Server response:', response.data);
-        alert('PNG saved successfully!');
+        console.log('SVG saved successfully:', response.data);
+        alert('SVG saved successfully!');
       } catch (error) {
-        console.error('Error saving PNG:', error);
-        console.error('Error details:', error.response?.data);
-        alert(`Failed to save PNG: ${error.message}`);
+        console.error('Error saving SVG:', error);
+        console.error('Error details:', error.response?.data || error.message);
+        alert('Error saving SVG. Please try again.');
       }
     };
 
     return (
       <button
-        onClick={saveAsPNG}
+        onClick={saveAsSVG}
         style={{
           position: 'absolute',
           bottom: '20px',
@@ -111,11 +94,11 @@ const Whiteboard = () => {
           border: 'none',
           borderRadius: '5px',
           cursor: 'pointer',
-          zIndex: 1000, // This ensures the button is on top
-          boxShadow: '0 2px 5px rgba(0,0,0,0.2)', // Optional: adds a subtle shadow
+          zIndex: 1000,
+          boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
         }}
       >
-        Save as PNG
+        Save as SVG
       </button>
     );
   };

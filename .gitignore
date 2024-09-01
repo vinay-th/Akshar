@@ -1,7 +1,7 @@
-
 # Dependencies
 /node_modules
 
+.env
 # Production
 /build
 
@@ -32,4 +32,3 @@ pids
 
 # OS-specific
 Thumbs.db
-  
