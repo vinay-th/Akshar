@@ -6,7 +6,8 @@ import {
   useLocation,
 } from 'react-router-dom';
 import Herosection from './pages/Herosection';
-import Whiteboard from './components/Whiteboard.jsx'; // Ensure correct import
+import Whiteboard from './components/Whiteboard.jsx';
+import Login from './pages/Login.jsx';
 
 function MainApp() {
   const action = useNavigationType();
@@ -51,8 +52,7 @@ function MainApp() {
   return (
     <Routes>
       <Route path="/" element={<Herosection />} />
-      <Route path="/teachers/whiteboard" element={<Whiteboard />} />
-      <Route path="/test" element={<div>Test route works</div>} />
+      <Route path="/login" element={<Login />} />
       <Route path="/faculty/:uniqueId/whiteboard" element={<Whiteboard />} />
       <Route path="*" element={<div>404 - Not Found</div>} />
     </Routes>

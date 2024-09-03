@@ -42,7 +42,7 @@ const Landing = ({ className = '' }) => {
           >
             <ul className="navbar-nav mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/">
                   Home
                 </a>
               </li>
@@ -66,10 +66,16 @@ const Landing = ({ className = '' }) => {
               <button
                 className="btn btn-faculty btn-outline-dark me-2"
                 style={{ marginRight: '24px' }}
+                onClick={() => (window.location.href = '/login')}
               >
                 Student
               </button>
-              <button className="btn btn-student btn-dark">Faculty</button>
+              <button
+                className="btn btn-student btn-dark"
+                onClick={() => (window.location.href = '/login')}
+              >
+                Faculty
+              </button>
             </div>
           </div>
         </div>
