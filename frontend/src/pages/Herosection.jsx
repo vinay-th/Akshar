@@ -3,6 +3,7 @@ import Landing from '../components/Landing';
 import Features from '../components/Features';
 import Testimonials from '../components/Testimonials';
 import FAQ from '../components/FAQ';
+import OurTeam from '../components/OurTeam';
 
 const Herosection = () => {
   return (
@@ -11,6 +12,7 @@ const Herosection = () => {
       <Features />
       <Testimonials />
       <FAQ />
+      <OurTeam />
     </div>
   );
 };
