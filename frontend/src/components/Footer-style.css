@@ -1,0 +1,173 @@
+.content-wrap {
+  display: flex;
+  background-color: #141414;
+  flex-direction: column;
+  height: 75vh;
+  width: 210vh;
+  padding-left: 110px;
+  padding-right: 110px;
+}
+.logo {
+  position: absolute;
+  width: 237px;
+  height: 100px;
+  left: 120px;
+  top: 4200px;
+}
+.text-ff {
+  position: absolute;
+  width: 759px;
+  height: 100px;
+  left: 400px;
+  top: 4200px;
+
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 900;
+  font-size: 40px;
+  line-height: 50px;
+
+  color: rgba(28, 130, 173, 0.58);
+}
+
+.contacts {
+  position: absolute;
+  width: 175vh;
+  height: 350px;
+  top: 4350px;
+}
+
+.mail,
+.phone {
+  margin-bottom: 20px;
+  height: 64px;
+  width: 48px;
+  margin-left: 10px;
+}
+.media {
+  width: 80vh;
+}
+.socials {
+  margin-top: 10px;
+  margin-right: 27px;
+}
+.facebook {
+  margin-left: 10px;
+}
+
+.txt {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 40px;
+
+  color: #ffffff;
+}
+.media {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.applications {
+  width: 50%;
+  padding-top: 175px;
+  padding-left: 150px;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.ios,
+.android {
+  margin-right: 50px;
+}
+
+.end {
+  padding-top: 65px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  font-family: 'Lexend Exa';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+
+  color: #ffffff;
+}
+
+@media screen and (max-width: 768px) {
+  .content-wrap {
+    width: 100%;
+    height: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .logo {
+    position: static;
+    width: 150px;
+    height: auto;
+    margin: 20px auto;
+  }
+
+  .text-ff {
+    position: static;
+    width: 100%;
+    height: auto;
+    font-size: 24px;
+    line-height: 30px;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .contacts {
+    position: static;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mail,
+  .phone {
+    margin-bottom: 10px;
+    height: 32px;
+    width: 24px;
+  }
+
+  .socials {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .facebook,
+  .instagram,
+  .twitter,
+  .github {
+    margin: 0 10px;
+  }
+
+  .txt {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .end {
+    padding-top: 30px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .end span {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

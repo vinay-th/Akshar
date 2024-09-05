@@ -57,11 +57,7 @@ const StyledCard = styled.div`
     font-weight: 700;
     background: rgb(0, 0, 0);
     background: rgb(0, 0, 0);
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 1) 22%,
-      rgba(15, 167, 210, 1) 100%
-    );
+    background: linear-gradient(135deg, #3f0071, #1e3a8a);
 
     background-clip: text;
     -webkit-background-clip: text;
@@ -83,11 +79,7 @@ const StyledCard = styled.div`
     gap: 10px;
     background: rgb(0, 0, 0);
     background: rgb(0, 0, 0);
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 1) 22%,
-      rgba(15, 167, 210, 1) 100%
-    );
+    background: linear-gradient(135deg, #3f0071, #1e3a8a);
     padding: 20px;
     line-height: 1.5;
     border-radius: 5px;
