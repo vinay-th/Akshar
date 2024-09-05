@@ -55,11 +55,12 @@ const StyledCard = styled.div`
   .card2 .front-content2 p {
     font-size: 32px;
     font-weight: 700;
+    background: rgb(0, 0, 0);
+    background: rgb(0, 0, 0);
     background: linear-gradient(
       90deg,
-      rgba(136, 192, 255, 1) 0%,
-      rgba(0, 212, 255, 1) 43%,
-      rgba(0, 64, 110, 1) 100%
+      rgba(0, 0, 0, 1) 22%,
+      rgba(15, 167, 210, 1) 100%
     );
 
     background-clip: text;
@@ -80,11 +81,12 @@ const StyledCard = styled.div`
     justify-content: center;
     text-align: center;
     gap: 10px;
+    background: rgb(0, 0, 0);
+    background: rgb(0, 0, 0);
     background: linear-gradient(
       90deg,
-      rgba(136, 192, 255, 1) 0%,
-      rgba(0, 212, 255, 1) 43%,
-      rgba(0, 64, 110, 1) 100%
+      rgba(0, 0, 0, 1) 22%,
+      rgba(15, 167, 210, 1) 100%
     );
     padding: 20px;
     line-height: 1.5;
