@@ -52,17 +52,19 @@ export default function StudentDashboard() {
         </div>
       </div>
       <div className="w-[187px] h-[81px] left-[130px] top-[23px] absolute">
-        <img
-          className="w-[187px] h-[81px] left-0 top-2 absolute"
-          src="../public/footer/logo.svg"
-        />
+        <a href="/">
+          <img
+            className="w-[187px] h-[81px] left-0 top-2 absolute"
+            src="../public/footer/logo.svg"
+          />
+        </a>
       </div>
       <div className="w-[571px] top-[150px] left-[130px] h-[314px] relative">
         <div className="w-[571px] left-0 top-0 absolute text-[#1c82ad] text-[40px] font-black font-['Mulish']">
           Welcome to your dashboard!
         </div>
         <a href="#">
-          <div className="main-btns w-[126.50px] h-[89px] left-[2px] top-[88px] absolute bg-[#1c82ad] rounded-[15px]">
+          <div className="main-btns-sdash w-[126.50px] h-[89px] left-[2px] top-[88px] absolute bg-[#1c82ad] rounded-[15px]">
             <div className="left-[30px] top-[62px] absolute text-black text-[10px] font-bold font-['Mulish']">
               Lecture Notes
             </div>
@@ -74,7 +76,7 @@ export default function StudentDashboard() {
           </div>
         </a>
         <a href="#">
-          <div className="main-btns w-[126.50px] h-[89px] left-[159px] top-[88px] absolute bg-[#1c82ad] rounded-[15px]">
+          <div className="main-btns-sdash w-[126.50px] h-[89px] left-[159px] top-[88px] absolute bg-[#1c82ad] rounded-[15px]">
             <div className="left-[23px] top-[59.60px] absolute text-black text-[10px] font-bold font-['Mulish']">
               Download Notes
               <img
@@ -86,7 +88,7 @@ export default function StudentDashboard() {
           </div>
         </a>
         <a href="#">
-          <div className="main-btns w-[126.50px] h-[89px] left-[2px] top-[225px] absolute bg-[#1c82ad] rounded-[15px]">
+          <div className="main-btns-sdash w-[126.50px] h-[89px] left-[2px] top-[225px] absolute bg-[#1c82ad] rounded-[15px]">
             <div className="left-[41px] top-[60px] absolute text-black text-[9px] font-bold font-['Mulish']">
               Assigment
               <img
@@ -98,7 +100,7 @@ export default function StudentDashboard() {
           </div>
         </a>
         <a href="#">
-          <div className="main-btns w-[126.50px] h-[89px] left-[159px] top-[225px] absolute bg-[#1c82ad] rounded-[15px]">
+          <div className="main-btns-sdash w-[126.50px] h-[89px] left-[159px] top-[225px] absolute bg-[#1c82ad] rounded-[15px]">
             <div className="left-[52px] top-[61px] absolute text-black text-[9px] font-bold font-['Mulish']">
               Quiz
               <img
