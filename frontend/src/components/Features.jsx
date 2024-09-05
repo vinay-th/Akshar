@@ -23,8 +23,8 @@ const Features = ({ className = '' }) => {
                 </h1>
               </div>
               <div className="w-[393px] relative text-lg leading-[25px] font-mainpara text-main-para inline-block max-w-full">
-                Easily track student attendance using QR codes. Receive instant
-                notifications about attendance status.
+                Easily track student attendance using facial recognition.
+                Receive instant notifications about attendance status.
               </div>
             </div>
           </div>

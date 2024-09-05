@@ -49,7 +49,7 @@ if (!uri) {
 
 const client = new MongoClient(uri);
 
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
+console.log('MONGODB_URI connected');
 
 async function startServer() {
   try {
