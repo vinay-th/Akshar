@@ -3,14 +3,25 @@ import team from '../../public/people-svg.svg';
 import rocket from '../../public/rocket-launch.svg';
 import styled from 'styled-components';
 
+import teamImg from '../../public/team.svg';
+
 const OurTeam = () => {
   return (
     <StyledOurTeam id="about">
       <div className="our-team-container">
         <div className="content-wrapper">
-          <div className="team-section">
+          <div className="team-section top-[2970px] absolute">
+            <br />
             <img src={team} alt="team" className="team-image" />
-            <h2 className="our-team-title">Our Team</h2>
+            <h2 className="our-team-title ">Our Team</h2>
+          </div>
+          <div className="team-img">
+            <img
+              src={teamImg}
+              alt="team"
+              className="team-image"
+              draggable="false"
+            />
           </div>
           <div className="our-story">
             <div className="our-story-header">
@@ -67,12 +78,17 @@ const StyledOurTeam = styled.div`
   .team-section {
     display: flex;
     align-items: center;
-    margin-bottom: 50vh; // This creates the 50vh gap
+    margin-bottom: 5vh; // This creates the 50vh gap
   }
 
-  .team-image {
-    width: 100px;
-    height: 100px;
+  .team-img {
+    display: flex;
+    width: 100%;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+    dragable: false;
   }
 
   .our-team-title {

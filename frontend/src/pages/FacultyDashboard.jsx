@@ -70,7 +70,7 @@ export default function StudentDashboard() {
         <div className="w-[571px] left-0 top-0 absolute text-[#1c82ad] text-[40px] font-black font-['Mulish']">
           Welcome to your dashboard!
         </div>
-        <a href="#">
+        <a href="/faculty/demo/whiteboard">
           <div className="main-btns-sdash w-[130px] h-[100px] left-[2px] top-[88px] absolute bg-[#1c82ad] rounded-[15px]">
             <div className="left-[30px] top-[62px] absolute text-black text-[12px] font-bold font-['Mulish']">
               Start Lecture
