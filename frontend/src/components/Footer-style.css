@@ -2,7 +2,7 @@
   display: flex;
   background-color: #141414;
   flex-direction: column;
-  height: 75vh;
+  height: 80vh;
   width: 210vh;
   padding-left: 110px;
   padding-right: 110px;
@@ -55,6 +55,12 @@
   margin-left: 10px;
 }
 
+.twitter,
+.github,
+.instagram,
+.facebook :hover {
+  opacity: 0.5;
+}
 .txt {
   font-family: 'Mulish';
   font-style: normal;

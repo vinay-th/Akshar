@@ -10,7 +10,7 @@ import github from '../../public/footer/github.svg';
 import ApplicationBtn from './ApplicationBtn';
 const Footer = () => {
   return (
-    <div className="footer">
+    <div className="footer" id="Contact">
       <div className="content-wrap">
         <img src={logo} alt="logo" className="logo" />
         <div className="text-ff">

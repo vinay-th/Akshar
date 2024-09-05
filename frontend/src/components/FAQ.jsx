@@ -10,6 +10,7 @@ const FAQ = () => {
         <div
           className="relative top-[50px] font-black mq450:text-5xl mq750:text-13xl"
           style={{ width: '1000px' }}
+          id="FAQ"
         >
           Frequently Asked Questions
         </div>

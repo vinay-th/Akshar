@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const OurTeam = () => {
   return (
-    <StyledOurTeam>
+    <StyledOurTeam id="about">
       <div className="our-team-container">
         <div className="content-wrapper">
           <div className="team-section">
