@@ -30,8 +30,11 @@ const Whiteboard = () => {
     const checkAuth = async () => {
       try {
         console.log('Checking auth for uniqueId:', uniqueId);
-        const response = await axios.get(`/api/auth/check/${uniqueId}`);
+        const response = await axios.get(
+          `http://localhost:5000/api/auth/check/${uniqueId}`
+        );
         console.log('Auth response:', response.data);
+        console.log(response);
         if (response.data.isTeacher) {
           setIsLoggedIn(true);
         } else {
@@ -81,7 +84,7 @@ const Whiteboard = () => {
 
         console.log('Sending SVG save request...');
         const response = await axios.post(
-          `/api/whiteboard/${uniqueId}/save-svg`,
+          `http://localhost:5000/api/whiteboard/${uniqueId}/save-svg`,
           formData,
           {
             headers: {

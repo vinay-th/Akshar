@@ -18,9 +18,12 @@ const Whiteboard = () => {
         .join('');
 
       try {
-        const response = await axios.post('/api/whiteboard/save-svg', {
-          svgData: svg,
-        });
+        const response = await axios.post(
+          'http://localhost:5000/api/whiteboard/demo/save-svg',
+          {
+            svgData: svg,
+          }
+        );
         console.log(response.data);
       } catch (error) {
         console.error('Error saving SVG:', error);
