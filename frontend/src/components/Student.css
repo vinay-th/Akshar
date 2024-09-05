@@ -1,0 +1,8 @@
+.main-btns {
+  transition: transform 0.3s ease-in-out;
+}
+
+.main-btns:hover {
+  background-color: #3ebcf2;
+  transform: scale(1.1);
+}

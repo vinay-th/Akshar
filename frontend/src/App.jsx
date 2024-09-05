@@ -8,7 +8,7 @@ import {
 import Herosection from './pages/Herosection';
 import Whiteboard from './components/Whiteboard.jsx';
 import Login from './pages/Login.jsx';
-
+import StudentDashboard from './pages/StudentDashboard.jsx';
 function MainApp() {
   const action = useNavigationType();
   const location = useLocation();
@@ -54,6 +54,7 @@ function MainApp() {
       <Route path="/" element={<Herosection />} />
       <Route path="/login" element={<Login />} />
       <Route path="/faculty/:uniqueId/whiteboard" element={<Whiteboard />} />
+      <Route path="/student/dashboard" element={<StudentDashboard />} />
       <Route path="*" element={<div>404 - Not Found</div>} />
     </Routes>
   );
