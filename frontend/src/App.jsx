@@ -14,6 +14,7 @@ import AdminDashboard from './pages/AdminDashboard.jsx';
 import ManageFaculty from './components/admin-dashboard/ManageFaculty';
 import ManageStudents from './components/admin-dashboard/ManageStudents';
 import ManageDepartment from './components/admin-dashboard/ManageDepartment';
+import { createGlobalStyle } from 'styled-components';
 
 function MainApp() {
   const action = useNavigationType();

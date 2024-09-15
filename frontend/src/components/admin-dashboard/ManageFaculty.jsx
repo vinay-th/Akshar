@@ -130,7 +130,7 @@ export default function ManageFaculty() {
                 <Th>Department</Th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="data-table">
               {facultyData.map((row) => (
                 <tr key={row.srNo}>
                   <Td>{row.srNo}</Td>
@@ -175,6 +175,10 @@ const LogoContainer = styled.div`
   align-items: center;
 `;
 
+const DataTable = styled.div`
+  font-family: 'Mulish', sans-serif !important;
+`;
+
 const LogoImage = styled.img`
   height: 3rem;
   width: 15rem;
@@ -212,6 +216,7 @@ const Main = styled.main`
 
 const Sidebar = styled.aside`
   width: 250px;
+  height: 380px;
   background-color: white;
   border-radius: 0.5rem;
   padding: 1rem;

@@ -222,6 +222,7 @@ const Main = styled.main`
 
 const Sidebar = styled.aside`
   width: 250px;
+  height: 380px;
   background-color: white;
   border-radius: 0.5rem;
   padding: 1rem;

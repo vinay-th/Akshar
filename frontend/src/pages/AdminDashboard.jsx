@@ -90,6 +90,94 @@ const classesData = [
     division: 'B',
     classRoom: '202',
   },
+  {
+    srNo: 5,
+    departmentName: 'Electronics Engineering',
+    courseName: 'B.E',
+    semester: 'SEM IV',
+    division: 'A',
+    classRoom: '301',
+  },
+  {
+    srNo: 6,
+    departmentName: 'Electronics Engineering',
+    courseName: 'B.E',
+    semester: 'SEM IV',
+    division: 'B',
+    classRoom: '302',
+  },
+  {
+    srNo: 7,
+    departmentName: 'Mechanical Engineering',
+    courseName: 'B.Tech',
+    semester: 'SEM II',
+    division: 'A',
+    classRoom: '401',
+  },
+  {
+    srNo: 8,
+    departmentName: 'Mechanical Engineering',
+    courseName: 'B.Tech',
+    semester: 'SEM II',
+    division: 'B',
+    classRoom: '402',
+  },
+  {
+    srNo: 9,
+    departmentName: 'Information Technology',
+    courseName: 'B.Sc IT',
+    semester: 'SEM VI',
+    division: 'A',
+    classRoom: '501',
+  },
+  {
+    srNo: 10,
+    departmentName: 'Information Technology',
+    courseName: 'B.Sc IT',
+    semester: 'SEM VI',
+    division: 'B',
+    classRoom: '502',
+  },
+  {
+    srNo: 11,
+    departmentName: 'Electronics Engineering',
+    courseName: 'B.E',
+    semester: 'SEM IV',
+    division: 'B',
+    classRoom: '302',
+  },
+  {
+    srNo: 12,
+    departmentName: 'Mechanical Engineering',
+    courseName: 'B.Tech',
+    semester: 'SEM II',
+    division: 'A',
+    classRoom: '401',
+  },
+  {
+    srNo: 13,
+    departmentName: 'Mechanical Engineering',
+    courseName: 'B.Tech',
+    semester: 'SEM II',
+    division: 'B',
+    classRoom: '402',
+  },
+  {
+    srNo: 14,
+    departmentName: 'Information Technology',
+    courseName: 'B.Sc IT',
+    semester: 'SEM VI',
+    division: 'A',
+    classRoom: '501',
+  },
+  {
+    srNo: 15,
+    departmentName: 'Information Technology',
+    courseName: 'B.Sc IT',
+    semester: 'SEM VI',
+    division: 'B',
+    classRoom: '502',
+  },
 ];
 
 export default function AdminDashboard() {
@@ -121,14 +209,16 @@ export default function AdminDashboard() {
       <Main>
         <Sidebar>
           {sidebarItems.map((item) => (
-            <React.Fragment key={item.text}>
-              <a href={item.link} style={{ textDecoration: 'none' }}>
-                <SidebarButton>
-                  <Icon name={item.icon} className="h-5 w-5 mr-2" />
-                  {item.text}
-                </SidebarButton>
-              </a>
-            </React.Fragment>
+            <SidebarButton key={item.text}>
+              <React.Fragment key={item.text}>
+                <a href={item.link} style={{ textDecoration: 'none' }}>
+                  <SidebarButton>
+                    <Icon name={item.icon} className="h-5 w-5 mr-2" />
+                    {item.text}
+                  </SidebarButton>
+                </a>
+              </React.Fragment>
+            </SidebarButton>
           ))}
         </Sidebar>
         <Content>
@@ -146,7 +236,7 @@ export default function AdminDashboard() {
             </thead>
             <tbody>
               {classesData.map((row) => (
-                <tr key={row.srNo}>
+                <tr key={`row-${row.srNo}`}>
                   <Td>{row.srNo}</Td>
                   <Td>{row.departmentName}</Td>
                   <Td>{row.courseName}</Td>
@@ -169,6 +259,7 @@ export default function AdminDashboard() {
 
 const Container = styled.div`
   min-height: 100vh;
+  height: 100%;
   background: linear-gradient(to bottom right, #e6f2ff, #e6fff2);
 `;
 
@@ -228,6 +319,7 @@ const Main = styled.main`
 
 const Sidebar = styled.aside`
   width: 250px;
+  height: 380px;
   background-color: white;
   border-radius: 0.5rem;
   padding: 1rem;
