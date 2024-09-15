@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import Logo from '../ui/logo.svg';
 
@@ -33,6 +33,44 @@ const Icon = ({ name, className = '' }) => (
     />
   </svg>
 );
+
+const Dropdown = ({ onEdit, onRemove, isOpen, toggleDropdown }) => {
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        toggleDropdown();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, toggleDropdown]);
+
+  return (
+    <DropdownContainer ref={dropdownRef}>
+      <DropdownToggle onClick={toggleDropdown}>...</DropdownToggle>
+      {isOpen && (
+        <DropdownMenu>
+          <DropdownItem onClick={onEdit}>
+            <Icon name="fileText" className="h-4 w-4 mr-2" />
+            Edit
+          </DropdownItem>
+          <DropdownItem onClick={onRemove}>
+            <Icon name="logOut" className="h-4 w-4 mr-2" />
+            Remove
+          </DropdownItem>
+        </DropdownMenu>
+      )}
+    </DropdownContainer>
+  );
+};
 
 const navItems = [
   { text: 'Dashboard', icon: 'home', link: '/admin/dashboard' },
@@ -85,6 +123,22 @@ const studentData = [
 ];
 
 export default function ManageStudents() {
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+
+  const handleEdit = (id) => {
+    console.log(`Edit student with id: ${id}`);
+    // Add our edit logic here
+  };
+
+  const handleRemove = (id) => {
+    console.log(`Remove student with id: ${id}`);
+    // Add our remove logic here
+  };
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId(openDropdownId === id ? null : id);
+  };
+
   return (
     <Container>
       <Header>
@@ -136,6 +190,7 @@ export default function ManageStudents() {
                 <Th>Course</Th>
                 <Th>Division</Th>
                 <Th>Semester</Th>
+                <Th>Actions</Th>
               </tr>
             </thead>
             <tbody>
@@ -147,13 +202,20 @@ export default function ManageStudents() {
                   <Td>{row.course}</Td>
                   <Td>{row.division}</Td>
                   <Td>{row.semester}</Td>
+                  <Td>
+                    <Dropdown
+                      onEdit={() => handleEdit(row.srNo)}
+                      onRemove={() => handleRemove(row.srNo)}
+                      isOpen={openDropdownId === row.srNo}
+                      toggleDropdown={() => toggleDropdown(row.srNo)}
+                    />
+                  </Td>
                 </tr>
               ))}
             </tbody>
           </Table>
           <ButtonContainer>
             <ActionButton className="add-student">Add Student</ActionButton>
-            <ActionButton className="edit-student">Edit Student</ActionButton>
           </ButtonContainer>
         </Content>
       </Main>
@@ -288,6 +350,52 @@ const ButtonContainer = styled.div`
   margin-top: 1rem;
 `;
 
+const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const DropdownToggle = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #4b5563;
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  right: -50px;
+  z-index: 1;
+  min-width: 120px;
+  padding: 0.5rem 0;
+  margin: 0.125rem 0 0;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+`;
+
+const DropdownItem = styled.button`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.25rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+`;
+
 const ActionButton = styled.button`
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
@@ -307,13 +415,6 @@ const ActionButton = styled.button`
     background-color: #10b981;
     &:hover {
       background-color: #059669;
-    }
-  }
-
-  &.edit-student {
-    background-color: #f59e0b;
-    &:hover {
-      background-color: #d97706;
     }
   }
 `;
