@@ -10,6 +10,11 @@ import Whiteboard from './components/Whiteboard.jsx';
 import Login from './pages/Login.jsx';
 import StudentDashboard from './pages/StudentDashboard.jsx';
 import FacultyDashboard from './pages/FacultyDashboard.jsx';
+import AdminDashboard from './pages/AdminDashboard.jsx';
+import ManageFaculty from './components/admin-dashboard/ManageFaculty';
+import ManageStudents from './components/admin-dashboard/ManageStudents';
+import ManageDepartment from './components/admin-dashboard/ManageDepartment';
+
 function MainApp() {
   const action = useNavigationType();
   const location = useLocation();
@@ -57,6 +62,10 @@ function MainApp() {
       <Route path="/faculty/:uniqueId/whiteboard" element={<Whiteboard />} />
       <Route path="/student/dashboard" element={<StudentDashboard />} />
       <Route path="/faculty/dashboard" element={<FacultyDashboard />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route path="/admin/manage-faculty" element={<ManageFaculty />} />
+      <Route path="/admin/manage-students" element={<ManageStudents />} />
+      <Route path="/admin/manage-departments" element={<ManageDepartment />} />
       <Route path="*" element={<div>404 - Not Found</div>} />
     </Routes>
   );
